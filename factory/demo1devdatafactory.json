@@ -1,0 +1,9 @@
+{
+	"name": "demo1devdatafactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8e071bd3-365a-4547-ac9a-878678e011bd",
+		"tenantId": "878e967d-7daf-4216-b5a8-de65ba90a7c8"
+	}
+}

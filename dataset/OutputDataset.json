@@ -1,5 +1,5 @@
 {
-	"name": "InputDataset",
+	"name": "OutputDataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LinkedService_Storage",
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "details.txt",
-				"folderPath": "Input",
+				"fileName": "details1.txt",
+				"folderPath": "Output",
 				"container": "adfdemo"
 			}
 		}

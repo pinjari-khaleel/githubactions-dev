@@ -41,14 +41,14 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "OuputDataset",
+						"referenceName": "OutputDataset",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2024-01-22T09:15:57Z"
+		"lastPublishTime": "2024-01-22T13:06:47Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
