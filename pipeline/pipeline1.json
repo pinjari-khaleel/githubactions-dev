@@ -38,12 +38,6 @@
 						"referenceName": "InputDataset",
 						"type": "DatasetReference"
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "OutputDataset",
-						"type": "DatasetReference"
-					}
 				]
 			}
 		],
