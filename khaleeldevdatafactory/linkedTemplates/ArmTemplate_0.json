@@ -10,6 +10,10 @@
 		"Linkedservice_storage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Linkedservice_storage'"
+		},
+		"MyFiles_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'MyFiles'"
 		}
 	},
 	"variables": {
@@ -30,6 +34,20 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/MyFiles')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureFileStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('MyFiles_connectionString')]",
+					"fileShare": "demofileshareadf"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/InputDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -45,7 +63,7 @@
 						"type": "AzureBlobStorageLocation",
 						"fileName": "details.txt",
 						"folderPath": "Input",
-						"container": "adfdev"
+						"container": "adfdemo"
 					}
 				}
 			},
@@ -75,6 +93,66 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Linkedservice_storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Inputcsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "MyFiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "gitlabci_accessKeys.csv",
+						"folderPath": "Input"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Access key ID",
+						"type": "String"
+					},
+					{
+						"name": "Secret access key",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/MyFiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Outputjson')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "MyFiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"folderPath": "Output"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/MyFiles')]"
 			]
 		},
 		{
@@ -134,11 +212,78 @@
 					"elapsedTimeMetric": {}
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-01-22T09:15:57Z"
+				"lastPublishTime": "2024-01-22T13:06:47Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/InputDataset')]",
 				"[concat(variables('factoryId'), '/datasets/OuputDataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureFileStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Inputcsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Outputjson",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Inputcsv')]",
+				"[concat(variables('factoryId'), '/datasets/Outputjson')]"
 			]
 		}
 	]

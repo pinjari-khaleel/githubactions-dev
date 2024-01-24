@@ -8,6 +8,9 @@
 		"Linkedservice_storage_connectionString": {
 			"value": ""
 		},
+		"MyFiles_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},
