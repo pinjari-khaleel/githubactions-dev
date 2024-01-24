@@ -1,0 +1,32 @@
+{
+	"name": "Inputcsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MyFiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "gitlabci_accessKeys.csv",
+				"folderPath": "Input"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Access key ID",
+				"type": "String"
+			},
+			{
+				"name": "Secret access key",
+				"type": "String"
+			}
+		]
+	}
+}
