@@ -102,9 +102,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "details.txt",
 						"folderPath": "Input",
-						"container": "adfdemo"
+						"container": "adfdev"
 					}
 				}
 			},
@@ -126,7 +125,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "details2.txt",
 						"folderPath": "output",
 						"container": "adfdev"
 					}
