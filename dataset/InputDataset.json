@@ -2,7 +2,7 @@
 	"name": "InputDataset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LinkedService_Storage",
+			"referenceName": "Linkedservice_storage",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,9 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "details.txt",
 				"folderPath": "Input",
-				"container": "adfdemo"
+				"container": "adfdev"
 			}
 		}
 	},
